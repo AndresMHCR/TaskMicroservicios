@@ -55,7 +55,7 @@ namespace CuentaService.Repository.Implementation
         public async Task<Cuenta> GetReporteMovimiento(string identificacion, DateTime fechaInicio, DateTime fechaFIn)
         {
             Cuenta response =await _personaContext.Cuenta.AsNoTracking().Where(c => c.Identificacioncli == identificacion).Include(c=>c.Movimientos).FirstOrDefaultAsync();
-            response.Movimientos = response.Movimientos.OrderByDescending(m => m.Fecha).ToList();
+            response.Movimientos = response.Movimientos.OrderByDescending(m => m.Fecha).Where(m => m.Fecha >= fechaInicio && m.Fecha <= fechaFIn).ToList();
             return response;
         }
 
